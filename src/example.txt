@@ -1,0 +1,133 @@
+
+import React, { useState } from "react"
+function Data(){
+
+    const [list, setList] = useState(["a","b","c"]);
+    const [color, setBgcolor]= useState("orange");
+    const [toggle, setToggle] = useState(true);
+
+    function toggles(){
+
+            if(toggle){
+                setBgcolor("Red");
+                setToggle(false);
+            }else{
+                setBgcolor("Black");
+                setToggle(true);
+            }
+    }
+    function itemAdd(){
+        setList([...list,"d"]);
+         setList([...list,"e","f"]);
+    }
+    return(
+
+        <div style={ {width:"300px",backgroundColor:color} }>
+           
+            <h2>hello</h2>
+       
+                <ul>
+                    
+                        {list.map((item)=>(
+                             <li>{item}</li>
+                        ))}
+                </ul>
+                <button onClick={itemAdd}>add item</button>
+                        <button onClick={toggles}>toggle</button>
+        </div>
+
+    )
+}
+
+
+
+
+import { useState } from "react";
+
+
+function FormData(){
+
+
+    const[data,setData]= useState([
+        {
+        name : "",
+        email : "",
+        password : "",
+        }
+    ]);
+    const[toggle, setToggle] = useState(false);
+    function handleToggle(e){
+            e.preventDefault()
+            setToggle(true)
+    }
+    return(
+        <>
+         <h2>User Form</h2>
+        <form action="">
+           
+            <label >Name : </label>
+            <input type='text' value={data.name} onChange={(e)=> setData({...data, name: e.target.value})  }/><br></br>
+            <label >Email : </label>
+            <input type='email' value={data.email} onChange={(e)=> setData({...data, email : e.target.value})} /><br /><br />
+            <br></br>
+            <label >Password</label>
+            <input type="password" value={data.password} onChange={(e)=> setData({...data, password : e.target.value})} /><br></br>
+            
+            <button type="submit" onClick={(e)=>handleToggle(e)} >submit</button>
+        </form>
+
+        <div>
+            
+          {toggle &&(
+            <div>
+                <h2>{data.name}</h2>
+                <h2>{data.email}</h2>
+                <h2>{data.password}</h2>
+            </div>
+          )
+          }
+
+        </div>
+
+        </>
+    )
+}
+
+
+
+
+const [que,setQue] = useState(null);
+        const [indx, setIndx] = useState(0);
+
+async function Qhandle(){
+
+    const ress = await fetch("https://opentdb.com/api.php?amount=10");
+    const qdata = await ress.json();
+    console.log(qdata);
+    setQue(qdata);
+     setIndx(indx+1);
+}
+useEffect(()=>{
+
+    Qhandle();
+
+},[]);
+return()
+  <div className={Styles.q2}>
+            {
+                que && que.results && (
+                    <div>
+                     <h2>Id :{que.results[indx].id}</h2>
+                     <h2>Type :{que.results[indx].type}</h2>   
+                     <h2>Category : {que.results[indx].category}</h2>
+                    <h2> Que : {que.results[indx].question}</h2>
+                    <h2>Ans : {que.results[indx].correct_answer}</h2>
+                    <h2>incorect ans : {que.results[indx].incorrect_answers}</h2>
+                    </div>
+                )
+            }
+                    <button onClick={Qhandle} className={Styles.btn} >que</button>
+
+           </div>
+export default FormData;
+export default Data;
